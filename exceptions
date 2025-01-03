@@ -1,0 +1,3 @@
+class InvalidMessageTypeException(TarotBotException):
+    pass
+#исключение для неподдерживаемого типа сообщения
