@@ -1,3 +1,6 @@
-class InvalidMessageTypeException(TarotBotException):
-    pass
+class InvalidMessageTypeException(Exception):
+    def __init__(self, message="Данный формат не поддерживается"):
+        self.message = message
+        super().__init__(self.message)
+
 #исключение для неподдерживаемого типа сообщения
