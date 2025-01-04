@@ -82,7 +82,7 @@ def choose_deck(message):  # Функция для обработки выбор
     bot.send_message(message.chat.id, "Отличный выбор. Введите ваш вопрос и опишите сложившуюся ситуацию...", reply_markup=markup)  # Запросить вопрос от пользователя
     bot.register_next_step_handler(message, process_question, selected_deck)  # Ожидание следующего сообщения от пользователя и передача выбранной колоды
 
-@validate_deck # Декоратор для проверки, поддерживается ли ответ пользователя (текст, голосовое) или нет (файл, картинка и т.п)
+@validate_deck  # Декоратор для проверки, поддерживается ли ответ пользователя (текст, голосовое) или нет (файл, картинка и т.п)
 def process_question(message, selected_deck):  # Обработчик ответа пользователя
     if message.content_type == 'text':  # Если сообщение текстовое
         user_input = message.text  # Сохраняем текст вопроса
@@ -94,8 +94,8 @@ def process_question(message, selected_deck):  # Обработчик ответ
             f.write(downloaded_file)
         user_input = voice_to_text(file_path)  # Преобразуем голос в текст
     else:
-        bot.send_message(message.chat.id, "Данный формат не поддерживается")  # Если формат неподдерживаемый, выводим сообщение
-        raise InvalidMessageTypeException()  # Генерируем исключение
+        bot.send_message(message.chat.id, "Данный формат не поддерживается")  # Если формат не поддерживается, выводим сообщение
+        raise InvalidMessageTypeException()  # Генерируем исключение 
 
     cards = random.sample(cards_decks[selected_deck], 3)  # Случайным образом выбираем 3 карты из выбранной колоды
     response_text = ""  # Начинаем собирать текст для предсказания
