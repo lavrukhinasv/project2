@@ -1,0 +1,12 @@
+
+@validate_deck # Декоратор для проверки, поддерживается ли ответ пользователя (текст, голосовое) или нет (файл, картинка и т.п)
+def process_question(message, selected_deck):  # Обработчик ответа пользователя
+    if message.content_type == 'text':  # Если сообщение текстовое
+        user_input = message.text  # Сохраняем текст вопроса
+    elif message.content_type == 'voice':  # Если сообщение голосовое
+        file_info = bot.get_file(message.voice.file_id)  # Получаем информацию о голосовом файле
+        file_path = f"downloads/{file_info.file_path.split('/')[-1]}"  # Устанавливаем путь для загрузки файла
+        downloaded_file = bot.download_file(file_info.file_path)  # Загружаем файл
+        with open(file_path, 'wb') as f:  # Сохраняем файл на диск
+            f.write(downloaded_file)
+        user_input = voice_to_text(file_path)  # Преобразуем голос в текст
